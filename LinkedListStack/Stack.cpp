@@ -24,30 +24,40 @@ int Stack::Pop()
 	{
 		return -1;
 	}
-	else
+
+	int valueReturn = 0;
+	Container* point = head;
+	Container* prevPoint = point;
+
+	if (Size() == 1)
 	{
-		int valueReturn = 0;
-		Container* point = head;
-		Container* prevPoint = point;
-
-		while (point->next != nullptr)
-		{
-			point = point->next;
-		}
-
 		valueReturn = point->value;
 		delete point;
-
-		if (point == head)
-		{
-			head = nullptr;
-		}
-		else
-		{
-			prevPoint->next = nullptr;
-		}
+		head = nullptr;
 		return valueReturn;
 	}
+
+	point = point->next;
+
+	while (point->next != nullptr)
+	{
+		Container* const temp = point;
+		point = point->next;
+		prevPoint = temp;
+	}
+
+	valueReturn = point->value;
+	delete point;
+
+	if (point == head)
+	{
+		head = nullptr;
+	}
+	else
+	{
+		prevPoint->next = nullptr;
+	}
+	return valueReturn;
 }
 
 int Stack::Size() const
@@ -65,7 +75,6 @@ int Stack::Size() const
 		temp += 1;
 	}
 	return temp;
-
 }
 
 bool Stack::Empty() const
