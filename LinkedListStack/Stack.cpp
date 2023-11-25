@@ -1,5 +1,6 @@
 #include "Stack.h"
 
+
 void Stack::Push(int value)
 {
 	auto* temp = new Container(value);
