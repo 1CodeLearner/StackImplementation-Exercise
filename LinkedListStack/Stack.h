@@ -1,9 +1,10 @@
 #pragma once
+#pragma once
 
 class Stack
 {
 public:
-	void Push( int val );
+	void Push(int val);
 	int Pop();
 	int Size() const;
 	bool Empty() const;

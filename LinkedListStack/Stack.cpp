@@ -52,7 +52,20 @@ int Stack::Pop()
 
 int Stack::Size() const
 {
-	return 0;
+	if (Empty())
+	{
+		return 0;
+	}
+
+	int temp = 1;
+	const Container* point = head;
+	while (point->next != nullptr)
+	{
+		point = point->next;
+		temp += 1;
+	}
+	return temp;
+
 }
 
 bool Stack::Empty() const
