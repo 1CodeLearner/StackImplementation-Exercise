@@ -7,6 +7,11 @@ public:
 	Stack(){}
 	Stack(const Stack& other)
 	{
+		*this = other;
+	}
+	void operator= (const Stack& other)
+	{
+		delete head;
 		Container* otherTemp = other.head;
 		Container* currentPoint = head;
 
@@ -24,8 +29,11 @@ public:
 				currentPoint = newPoint;
 				otherTemp = otherTemp->next;
 			}
-
 		}
+	}
+	~Stack()
+	{
+		delete head;
 	}
 public:
 	void Push(int val);
