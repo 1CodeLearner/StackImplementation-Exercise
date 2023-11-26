@@ -11,24 +11,27 @@ public:
 	}
 	void operator= (const Stack& other)
 	{
-		delete head;
-		head = nullptr;
-		Container* otherTemp = other.head;
-		Container* currentPoint = head;
-
-		for (int i = 0; i < other.Size(); i++)
+		if (this != &other)
 		{
-			auto newPoint = new Container(otherTemp->value);
-			if (currentPoint == nullptr)
+			delete head;
+			head = nullptr;
+			Container* otherTemp = other.head;
+			Container* currentPoint = head;
+
+			for (int i = 0; i < other.Size(); i++)
 			{
-				head = newPoint;
-				currentPoint = head;
-			}
-			else
-			{
-				currentPoint->next = newPoint;
-				currentPoint = newPoint;
-				otherTemp = otherTemp->next;
+				auto newPoint = new Container(otherTemp->value);
+				if (currentPoint == nullptr)
+				{
+					head = newPoint;
+					currentPoint = head;
+				}
+				else
+				{
+					currentPoint->next = newPoint;
+					currentPoint = newPoint;
+					otherTemp = otherTemp->next;
+				}
 			}
 		}
 	}
