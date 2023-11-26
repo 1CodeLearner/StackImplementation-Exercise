@@ -4,7 +4,7 @@
 class Stack
 {
 public:
-	Stack(){}
+	Stack() = default;
 	Stack(const Stack& other)
 	{
 		*this = other;
@@ -12,6 +12,7 @@ public:
 	void operator= (const Stack& other)
 	{
 		delete head;
+		head = nullptr;
 		Container* otherTemp = other.head;
 		Container* currentPoint = head;
 
