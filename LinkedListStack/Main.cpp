@@ -185,6 +185,24 @@ void test9()
 	}
 }
 
+void test10()
+{
+	Stack s;
+	s.Push(5);
+	s.Push(3);
+
+	s = s;
+
+	if (s.Size() == 2 && s.Pop() == 3)
+	{
+		chili::print("    Test 10 passed!\n");
+	}
+	else
+	{
+		chili::print("*** Test 10 failed!\n");
+	}
+}
+
 int main()
 {
 	_CrtSetReportMode( _CRT_WARN,_CRTDBG_MODE_FILE );
@@ -203,6 +221,7 @@ int main()
 	test7();
 	test8();
 	test9();
+	test10();
 
 	_CrtDumpMemoryLeaks();
 	while( !_kbhit() );
