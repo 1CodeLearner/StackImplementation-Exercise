@@ -85,12 +85,12 @@ bool Stack::Empty() const
 	return head == nullptr;
 }
 
-Stack::Iterator& Stack::begin()
+Stack::Iterator Stack::begin()
 {
 	return Iterator{ head };
 }
 
-Stack::Iterator& Stack::end()
+Stack::Iterator Stack::end()
 {
 	Container* temp = head;
 	while (temp)

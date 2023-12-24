@@ -48,8 +48,8 @@ public:
 	int Pop();
 	int Size() const;
 	bool Empty() const;
-	Iterator& begin();
-	Iterator& end();
+	Iterator begin();
+	Iterator end();
 
 private:
 	class Iterator
