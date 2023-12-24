@@ -249,7 +249,7 @@ int main()
 		std::cout << std::endl;
 	}
 	// level 2 (uncomment to challenge)
-	{
+	/*{
 		Stack s;
 		s.Push( 520 );
 		s.Push( 79 );
@@ -262,7 +262,7 @@ int main()
 			std::cout << n << ", ";
 		}
 		std::cout << std::endl;
-	}
+	}*/
 
 	/////////////////////////////////////////////////////////////////////
 

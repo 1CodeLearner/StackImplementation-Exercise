@@ -50,6 +50,8 @@ int Stack::Pop()
 	valueReturn = point->value;
 	delete point;
 
+	point = nullptr;
+
 	if (point == head)
 	{
 		head = nullptr;
@@ -81,4 +83,19 @@ int Stack::Size() const
 bool Stack::Empty() const
 {
 	return head == nullptr;
+}
+
+Stack::Iterator& Stack::begin()
+{
+	return Iterator{ head };
+}
+
+Stack::Iterator& Stack::end()
+{
+	Container* temp = head;
+	while (temp)
+	{
+		temp = temp->next;
+	}
+	return Iterator{ temp };
 }

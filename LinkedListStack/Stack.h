@@ -1,8 +1,12 @@
 #pragma once
 #pragma once
 
+#include <iostream>
+
 class Stack
 {
+	class Iterator;
+	class Container;
 public:
 	Stack() = default;
 	Stack(const Stack& other)
@@ -39,13 +43,40 @@ public:
 	{
 		delete head;
 	}
-public:
+
 	void Push(int val);
 	int Pop();
 	int Size() const;
 	bool Empty() const;
+	Iterator& begin();
+	Iterator& end();
 
 private:
+	class Iterator
+	{
+	public:
+		Iterator(Container* temp)
+			: ptr(temp)
+		{}
+
+		Container& operator*() const
+		{
+			return *ptr;
+		}
+		Iterator& operator++()
+		{
+			ptr = ptr->next;
+			return *this;
+		}
+		bool operator!=(const Iterator& other) const
+		{
+			return ptr != other.ptr;
+		}
+
+	private:
+		Container* ptr;
+	};
+
 	class Container
 	{
 	public:
@@ -58,9 +89,21 @@ private:
 		{
 			delete next;
 		}
+
+		Container& operator*=(const int other)
+		{
+			value *= other;
+			return *this;
+		}
+
+		friend std::ostream& operator<< (std::ostream& os, const Container& self)
+		{
+			os << self.value;
+			return os;
+		}
+
 		int value;
 		Container* next = nullptr;
 	};
-private:
 	Container* head = nullptr;
 };
