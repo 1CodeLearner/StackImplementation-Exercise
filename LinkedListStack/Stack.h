@@ -6,6 +6,7 @@
 class Stack
 {
 	class Iterator;
+	class ConstIterator;
 	class Container;
 public:
 	Stack() = default;
@@ -50,8 +51,8 @@ public:
 	bool Empty() const;
 	Iterator begin();
 	Iterator end();
-	Iterator begin() const;
-	Iterator end() const;
+	ConstIterator begin() const;
+	ConstIterator end() const;
 
 private:
 	class Iterator
@@ -79,6 +80,31 @@ private:
 		Container* ptr;
 	};
 
+	class ConstIterator
+	{
+	public:
+		ConstIterator(const Container* temp)
+			: ptr(temp)
+		{}
+
+		const Container& operator*() const
+		{
+			return *ptr;
+		}
+		ConstIterator& operator++()
+		{
+			ptr = ptr->next;
+			return *this;
+		}
+		bool operator!=(const ConstIterator& other) const
+		{
+			return ptr != other.ptr;
+		}
+
+	private:
+		const Container* ptr;
+	};
+
 	class Container
 	{
 	public:
@@ -93,7 +119,7 @@ private:
 		}
 		Container& operator=(const Container& other)
 		{
-			if(this != &other)
+			if (this != &other)
 			{
 				value = other.value;
 				next = nullptr;

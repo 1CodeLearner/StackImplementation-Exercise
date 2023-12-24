@@ -100,17 +100,17 @@ Stack::Iterator Stack::end()
 	return Iterator{ temp };
 }
 
-Stack::Iterator Stack::begin() const
+Stack::ConstIterator Stack::begin() const
 {
-	return Iterator{head};
+	return ConstIterator{ head };
 }
 
-Stack::Iterator Stack::end() const
+Stack::ConstIterator  Stack::end() const
 {
 	Container* temp = head;
 	while (temp)
 	{
 		temp = temp->next;
 	}
-	return Iterator{ temp };
+	return ConstIterator{ temp };
 }
