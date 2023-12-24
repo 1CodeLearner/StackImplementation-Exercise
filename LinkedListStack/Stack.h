@@ -50,6 +50,8 @@ public:
 	bool Empty() const;
 	Iterator begin();
 	Iterator end();
+	Iterator begin() const;
+	Iterator end() const;
 
 private:
 	class Iterator
@@ -84,6 +86,19 @@ private:
 			: value(in_value)
 		{
 
+		}
+		Container(const Container& other)
+		{
+			*this = other;
+		}
+		Container& operator=(const Container& other)
+		{
+			if(this != &other)
+			{
+				value = other.value;
+				next = nullptr;
+			}
+			return *this;
 		}
 		~Container()
 		{

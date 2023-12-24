@@ -99,3 +99,18 @@ Stack::Iterator Stack::end()
 	}
 	return Iterator{ temp };
 }
+
+Stack::Iterator Stack::begin() const
+{
+	return Iterator{head};
+}
+
+Stack::Iterator Stack::end() const
+{
+	Container* temp = head;
+	while (temp)
+	{
+		temp = temp->next;
+	}
+	return Iterator{ temp };
+}
