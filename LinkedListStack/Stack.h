@@ -1,186 +1,124 @@
 #pragma once
+#pragma once
+
+#include <iostream>
 
 class Stack
 {
-private:
-	class Element
-	{
-	public:
-		Element( int val,Element* pNext )
-			:
-			val( val ),
-			pNext( pNext )
-		{}
-		Element( const Element& src )
-			:
-			val( src.val )
-		{
-			if( src.pNext != nullptr )
-			{
-				pNext = new Element( *src.pNext );
-			}
-		}
-		Element& operator=( const Element& ) = delete;
-		int GetVal() const
-		{
-			return val;
-		}
-		Element* Disconnect()
-		{
-			auto pTemp = pNext;
-			pNext = nullptr;
-			return pTemp;
-		}
-		int CountElements() const
-		{
-			if( pNext != nullptr )
-			{
-				return pNext->CountElements() + 1;
-			}
-			else
-			{
-				return 1;
-			}
-		}
-		~Element()
-		{
-			delete pNext;
-			pNext = nullptr;
-		}
-	// there is a way to keep these private
-	// by making Iterator a friend of Element
-	// but it is not worth the hassle(hoff)
-	// private:
-		int val;
-		Element* pNext = nullptr;
-	};
-public:
-	class Iterator
-	{
-	public:
-		Iterator() = default;
-		Iterator( Element* pElement )
-			:
-			pElement( pElement )
-		{}
-		Iterator& operator++()
-		{
-			pElement = pElement->pNext;
-			return *this;
-		}
-		int& operator*() const
-		{
-			return pElement->val;
-		}
-		bool operator!=( Iterator rhs ) const
-		{
-			return pElement != rhs.pElement;
-		}
-	private:
-		Element* pElement = nullptr;
-	};
-	class ConstIterator
-	{
-	public:
-		ConstIterator() = default;
-		ConstIterator( const Element* pElement )
-			:
-			pElement( pElement )
-		{}
-		ConstIterator& operator++()
-		{
-			pElement = pElement->pNext;
-			return *this;
-		}
-		const int& operator*() const
-		{
-			return pElement->val;
-		}
-		bool operator!=( ConstIterator rhs ) const
-		{
-			return pElement != rhs.pElement;
-		}
-	private:
-		const Element* pElement = nullptr;
-	};
+	class Iterator;
+	class Container;
 public:
 	Stack() = default;
-	Stack( const Stack& src )
+	Stack(const Stack& other)
 	{
-		*this = src;
+		*this = other;
 	}
-	Stack& operator=( const Stack& src )
+	void operator= (const Stack& other)
 	{
-		if( &src != this )
+		if (this != &other)
 		{
-			if( !Empty() )
-			{
-				delete pTop;
-				pTop = nullptr;
-			}
+			delete head;
+			head = nullptr;
+			Container* otherTemp = other.head;
+			Container* currentPoint = head;
 
-			if( !src.Empty() )
+			for (int i = 0; i < other.Size(); i++)
 			{
-				pTop = new Element( *src.pTop );
+				auto newPoint = new Container(otherTemp->value);
+				if (currentPoint == nullptr)
+				{
+					head = newPoint;
+					currentPoint = head;
+				}
+				else
+				{
+					currentPoint->next = newPoint;
+					currentPoint = newPoint;
+					otherTemp = otherTemp->next;
+				}
 			}
 		}
-		return *this;
 	}
 	~Stack()
 	{
-		delete pTop;
-		pTop = nullptr;
+		delete head;
 	}
-	void Push( int val )
-	{
-		pTop = new Element( val,pTop );
-	}
-	int Pop()
-	{
-		if( !Empty() )
-		{
-			const int tempVal = pTop->GetVal();
-			auto pOldTop = pTop;
-			pTop = pTop->Disconnect();
-			delete pOldTop;
-			return tempVal;
-		}
-		else
-		{
-			return -1;
-		}
-	}
-	int Size() const
-	{
-		if( !Empty() )
-		{
-			return pTop->CountElements();
-		}
-		else
-		{
-			return 0;
-		}
-	}
-	bool Empty() const
-	{
-		return pTop == nullptr;
-	}
-	Iterator begin()
-	{
-		return{ pTop };
-	}
-	Iterator end()
-	{
-		return{};
-	}
-	ConstIterator begin() const
-	{
-		return{ pTop };
-	}
-	ConstIterator end() const
-	{
-		return{};
-	}
+
+	void Push(int val);
+	int Pop();
+	int Size() const;
+	bool Empty() const;
+	Iterator begin();
+	Iterator end();
+	Iterator begin() const;
+	Iterator end() const;
+
 private:
-	Element* pTop = nullptr;
+	class Iterator
+	{
+	public:
+		Iterator(Container* temp)
+			: ptr(temp)
+		{}
+
+		Container& operator*() const
+		{
+			return *ptr;
+		}
+		Iterator& operator++()
+		{
+			ptr = ptr->next;
+			return *this;
+		}
+		bool operator!=(const Iterator& other) const
+		{
+			return ptr != other.ptr;
+		}
+
+	private:
+		Container* ptr;
+	};
+
+	class Container
+	{
+	public:
+		Container(const int in_value)
+			: value(in_value)
+		{
+
+		}
+		Container(const Container& other)
+		{
+			*this = other;
+		}
+		Container& operator=(const Container& other)
+		{
+			if(this != &other)
+			{
+				value = other.value;
+				next = nullptr;
+			}
+			return *this;
+		}
+		~Container()
+		{
+			delete next;
+		}
+
+		Container& operator*=(const int other)
+		{
+			value *= other;
+			return *this;
+		}
+
+		friend std::ostream& operator<< (std::ostream& os, const Container& self)
+		{
+			os << self.value;
+			return os;
+		}
+
+		int value;
+		Container* next = nullptr;
+	};
+	Container* head = nullptr;
 };
